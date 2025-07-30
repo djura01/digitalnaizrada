@@ -1,0 +1,980 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;700;800;900&display=swap');
+
+/* --- Global Styles & Variables --- */
+:root {
+    --color-primary: #00d4ff; 	 /* Cyber blue */
+    --color-secondary: #ff0080; 	 /* Neon pink */
+    --color-accent: #00ff88; 	 /* Electric green */
+    --color-background: #0a0a0f; 	 /* Deep dark */
+    --color-background-alt: #1a1a2e; /* Dark purple */
+    --color-card: #16213e; 	 /* Dark blue card */
+    --color-text: #ffffff; 	 /* White text */
+    --color-text-light: #b8c5d6; 	 /* Light blue text */
+    --color-text-dark: #8892b0; 	 /* Muted text */
+    --color-success: #00ff88; 	 /* Electric green */
+    --color-border: #233554; 	 /* Dark border */
+    --color-shadow: rgba(0, 212, 255, 0.3); /* Glowing shadow */
+    --color-gradient1: #0a0a0f; 	 	 /* Gradient start */
+    --color-gradient2: #1a1a2e; 	 	 /* Gradient end */
+    --color-glow: #00d4ff; 	 /* Glow effect */
+
+    --animation-duration-fast: 0.2s;
+    --animation-duration-normal: 0.3s;
+    --animation-duration-slow: 0.5s;
+    --animation-duration-very-slow: 1s;
+
+    /* Nova promenljiva za sjaj slova */
+    --letter-glow-color: var(--color-primary); /* Podrazumevana boja sjaja slova */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: 'Exo 2', sans-serif; /* Default font */
+    line-height: 1.6;
+}
+
+#root, .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    flex: 1; /* For Expo's #root compatibility */
+}
+
+/* --- Base Typography --- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--color-text);
+    text-shadow: none; /* Uklanjamo podrazumevani text-shadow sa svih naslova, jer ga specifično dodajemo za hero-title i sekcije */
+}
+
+p {
+    font-family: 'Exo 2', sans-serif;
+    color: var(--color-text-light);
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Section Layouts --- */
+.section {
+    padding: 100px 20px;
+    max-width: 100vw; /* Omogućava da pozadina ide do ivica */
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    display: flex; /* Make it a flex container for children alignment */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Centriraj vertikalno sadržaj sekcije */
+    overflow: hidden; /* Bitno za čestice */
+    min-height: 70vh; /* Osnovna minimalna visina sekcije, ako nije 100vh */
+}
+
+.section-content { /* Novi wrapper za sadržaj unutar sekcija sa animiranom pozadinom */
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto; /* Centriraj sadržaj */
+    position: relative;
+    z-index: 2; /* Iznad animirane pozadine */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centriranje teksta i ostalih elemenata unutar sadržaja */
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--color-glow); /* Ponovo dodajemo sjaj za naslove sekcija */
+}
+
+.section-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--color-text-light);
+    margin-bottom: 80px; /* Povećan razmak ispod podnaslova */
+    line-height: 28px;
+    text-align: center; /* Osigurano centriranje */
+    max-width: 600px;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    background-color: var(--color-background);
+    padding: 100px 20px;
+    align-items: center;
+    position: relative;
+    min-height: 100vh;
+    justify-content: center;
+    display: flex;
+    overflow: hidden; /* Important for particle animation */
+}
+
+.hero-content {
+    max-width: 1000px;
+    width: 100%;
+    align-items: center;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px; /* Adjust for potential header later */
+    padding-bottom: 50px;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 56px;
+    text-shadow: none; /* Uklanjamo fiksni text-shadow sa h1.hero-title da bismo ga kontrolisali po slovu */
+    display: flex; /* Da bi spanovi bili inline, ali da se ponašaju kao fleks itemi */
+    flex-wrap: wrap; /* Da bi se tekst prelamano u više redova ako je potrebno */
+    justify-content: center; /* Centriramo slova unutar naslova */
+    user-select: none; /* Sprečava selekciju teksta koja bi pokvarila efekat */
+}
+
+/* Stilovi za svako slovo unutar H1 taga */
+.hero-title .letter-wrapper {
+    position: relative;
+    display: inline-block; /* Bitno da svako slovo zauzme samo svoj prostor */
+    white-space: pre; /* Sprečava prelamanje unutar reči, čuvajući razmake */
+    transition: text-shadow 0.1s ease-out, transform 0.1s ease-out; /* Brza tranzicija za paljenje i mali skok */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* Suptilni bazni sjaj */
+}
+
+.hero-title .letter-wrapper.active-glow {
+    text-shadow:
+        0 0 15px var(--letter-glow-color),
+        0 0 30px var(--letter-glow-color),
+        0 0 50px var(--letter-glow-color),
+        0 0 80px var(--letter-glow-color); /* Još jači sjaj */
+    transform: translateY(-5px) scale(1.05); /* Mali skok slova kad je aktivno */
+}
+
+/* Stil za povratak sjaja i transformacije - koristi se u JS za postepeno gašenje */
+.hero-title .letter-wrapper.deactivating-glow {
+    transition: text-shadow 0.8s ease-out, transform 0.8s ease-out; /* Sporija tranzicija za gašenje */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* Vraća se na bazni sjaj */
+    transform: translateY(0) scale(1);
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--color-text-light);
+    margin-top: 40px; /* Dodatni razmak od naslova */
+    margin-bottom: 70px; /* Povećan razmak ispod podnaslova, od dugmadi */
+    line-height: 26px;
+    text-align: center;
+    max-width: 700px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-direction: column; /* Stack vertically on small screens */
+    gap: 30px; /* Povećan razmak između dugmadi */
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* --- Animated Background (Particles) --- */
+.animated-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom right, var(--color-gradient1), var(--color-gradient2));
+    overflow: hidden;
+    z-index: 1; /* Behind section content */
+    pointer-events: none; /* KLJUČNA IZMENA: Ignoriše klikove miša i događaje skrolovanja */
+}
+
+/* CSS particles */
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0 0 3px var(--color-primary), 0 0 8px var(--color-primary);
+    animation: moveParticle linear infinite alternate;
+}
+
+@keyframes moveParticle {
+    0% { transform: translate(var(--start-x), var(--start-y)) scale(var(--start-scale)); opacity: var(--start-opacity); }
+    100% { transform: translate(var(--end-x), var(--end-y)) scale(var(--end-scale)); opacity: var(--end-opacity); }
+}
+
+/* --- Animated Button --- */
+.animated-button {
+    background-color: transparent;
+    border-width: 2px;
+    border-style: solid; /* Required for border-width */
+    padding: 16px 32px;
+    border-radius: 0; /* Square corners */
+    min-width: 180px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform var(--animation-duration-fast) ease-out; /* For scale animation */
+    z-index: 1; /* Ensure text is above glow */
+}
+
+.animated-button.primary-variant {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    text-shadow: 0 0 10px var(--color-primary);
+    box-shadow: 0 0 20px var(--color-shadow);
+}
+
+.animated-button.secondary-variant {
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+    text-shadow: 0 0 10px var(--color-secondary);
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+}
+
+/* Inner glow effect */
+.animated-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: currentColor; /* Inherit color from button text */
+    opacity: 0.1; /* Base opacity */
+    transition: opacity var(--animation-duration-normal) ease-out;
+    z-index: -1;
+}
+
+.animated-button:hover::before,
+.animated-button.active::before { /* For JS control */
+    opacity: 0.3;
+}
+
+/* Linear gradient overlay */
+.animated-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, transparent, currentColor 20%, transparent 80%);
+    opacity: 0.1; /* Slightly visible, for effect */
+    transition: opacity var(--animation-duration-normal) ease-out;
+    z-index: -1;
+}
+
+.animated-button:hover::after,
+.animated-button.active::after {
+    opacity: 0.2; /* Slightly more visible on hover/active */
+}
+
+
+/* --- Services Section --- */
+.services-section {
+    min-height: 100vh; /* Osiguraj da sekcija bude visoka bar 100% viewporta */
+}
+
+.services-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; /* Space between cards */
+}
+
+/* Specific styling for service card content alignment */
+.service-card .card-inner-pressable {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centriraj sav sadržaj horizontalno */
+    text-align: center; /* Centriraj tekst unutar p i li elemenata */
+    padding: 40px 25px; /* Smanjen horizontalni padding da tekst ima više prostora */
+    height: 100%; /* Dodato: Osigurava da sve kartice imaju istu visinu sadržaja */
+    justify-content: flex-start; /* Poravnaj sadržaj na vrh kartice */
+}
+
+.service-card .service-description {
+    text-align: center; /* Osiguraj centriranje opisa */
+    margin-bottom: 25px; /* Malo smanjen razmak pre liste */
+    max-width: 300px; /* Dodato: Ograničite širinu teksta za bolji izgled */
+    min-height: 72px; /* Dodato: Fiksna minimalna visina za opis radi poravnanja */
+    display: flex; /* Koristi flex za centriranje teksta unutar fiksnog okvira */
+    align-items: center; /* Vertikalno centriraj tekst */
+    justify-content: center; /* Horizontalno centriraj tekst */
+}
+
+.service-card .features-container {
+    align-items: flex-start; /* Poravnaj liste sa leve strane */
+    gap: 12px; /* Malo smanjen razmak između stavki liste */
+    width: 100%;
+    max-width: 280px; /* Dodato: Ograničite širinu liste za bolji izgled */
+}
+
+.service-card .feature-item {
+    justify-content: flex-start; /* Poravnaj elemente liste sa leve strane */
+    align-items: flex-start; /* Osiguraj da crtica i tekst budu na istom nivou */
+}
+
+.service-card .feature-item .feature-text {
+    text-align: left; /* Osiguraj da tekst stavke liste bude levo poravnat */
+}
+
+
+/* --- Animated Card (for Services, Portfolio, About, Contact Items) --- */
+.animated-card {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    box-shadow: 0 8px 32px var(--color-shadow);
+    elevation: 8; /* Android shadow equivalent */
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--animation-duration-slow) ease-out, border-color var(--animation-duration-slow) ease-out, box-shadow var(--animation-duration-slow) ease-out;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px; /* Service card specific height */
+    flex: 1; /* Allows flex items to grow/shrink */
+    max-width: 100%; /* Default for small screens */
+    will-change: transform, opacity; /* For smooth animations */
+}
+
+/* Active state for card hover/focus - New subtle animation */
+.animated-card:hover {
+    border-color: var(--data-glow-color, var(--color-primary)); /* Fallback to primary if not set */
+    box-shadow: 0 12px 40px var(--data-glow-shadow, var(--color-shadow));
+    /* New subtle animation: slight scale and translateY */
+    transform: scale(1.02) translateY(-5px);
+}
+
+
+/* Animated border glow (::before for glow, ::after for scanning line) */
+.animated-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 0;
+    background: linear-gradient(135deg, var(--data-glow-color, var(--color-primary)), transparent, var(--data-glow-color, var(--color-primary)));
+    opacity: 0.3; /* Base opacity */
+    z-index: 0; /* Behind content */
+    transition: opacity 3s ease-in-out infinite alternate; /* Continuous glow */
+    animation: borderGlow 6s linear infinite alternate;
+}
+
+@keyframes borderGlow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.8; }
+}
+
+/* Scanning line effect */
+.animated-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100px; /* Start off-screen */
+    width: 2px;
+    height: 100%;
+    background-color: var(--data-glow-color, var(--color-primary));
+    opacity: 0.6;
+    box-shadow: 0 0 10px var(--data-glow-color, var(--color-primary));
+    animation: scanLine 3s linear infinite; /* Continuous scan */
+    z-index: 1; /* Above border glow, below content */
+    pointer-events: none; /* Dodato: Sprečava da pseudo-element blokira klikove */
+}
+
+@keyframes scanLine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); } /* Move across card width + its own width */
+}
+
+.card-inner-pressable {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    text-align: inherit;
+    position: relative;
+    z-index: 2; /* Ensure content is above animations */
+}
+
+.service-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.service-icon {
+    font-size: 80px; /* Larger icon size */
+    text-shadow: 0 0 15px currentColor; /* Use currentColor for glow */
+}
+
+.service-title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 0 5px var(--color-glow);
+}
+
+.service-description {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Styling for lists in service cards */
+.features-container {
+    list-style: none; /* Remove default list bullets */
+    gap: 15px;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; /* Align text to top if multiple lines */
+    gap: 10px; /* Smanjen razmak za crticu */
+    width: 100%;
+    font-size: 16px; /* Ujednačena veličina fonta */
+    color: var(--color-text-light);
+}
+
+.feature-item::before {
+    content: '–'; /* Unicode crtica */
+    color: var(--color-success); /* Boja crtice */
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 1; /* Podesi visinu linije crtice */
+}
+
+.check-icon { /* Ova klasa više neće biti potrebna ako koristimo ::before za crtice */
+    font-size: 24px;
+    color: var(--color-success);
+    text-shadow: 0 0 5px var(--color-success);
+    display: none; /* Sakrij staru ikonicu ako je bila tu */
+}
+
+.feature-text {
+    font-size: 16px; /* Ujednačena veličina fonta */
+    color: var(--color-text-light);
+    flex: 1;
+}
+
+
+/* --- Portfolio Section --- */
+.portfolio-section {
+    /* No background-color needed, animated-background handles it */
+}
+
+.portfolio-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
+
+.portfolio-card {
+    border-radius: 0;
+    overflow: hidden;
+    flex: 1;
+    max-width: 400px; /* Max width for larger screens */
+    min-width: 300px; /* Min width for responsiveness */
+    transform: none;
+}
+
+/* New subtle animation for portfolio cards */
+.portfolio-card:hover {
+    transform: scale(1.03) translateY(-8px); /* More pronounced lift and scale */
+}
+
+.portfolio-image-wrapper {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    overflow: hidden; /* Ensure overlay respects bounds */
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the area, cropping if necessary */
+    transition: transform var(--animation-duration-slow) ease-out;
+}
+
+.portfolio-card:hover .portfolio-image {
+    transform: scale(1.05); /* Zoom effect on image */
+}
+
+.portfolio-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 1; /* Base opacity */
+    transition: opacity var(--animation-duration-slow) ease-out;
+}
+
+.portfolio-card:hover .portfolio-image-overlay {
+    opacity: 1; /* Ensure overlay is visible if desired on hover */
+}
+
+
+.portfolio-content {
+    padding: 30px;
+    position: relative;
+}
+
+.portfolio-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.portfolio-description {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 15px;
+}
+
+.portfolio-tech {
+    font-size: 14px;
+    font-weight: 600;
+    text-shadow: 0 0 5px currentColor; /* Use currentColor */
+}
+
+/* --- About Section --- */
+.about-section {
+    /* No background-color needed, animated-background handles it */
+}
+
+.about-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
+
+.about-card {
+    padding: 40px;
+    align-items: center;
+    min-height: 300px;
+    flex: 1;
+    max-width: 350px;
+    text-align: center; /* Centriranje teksta unutar kartice */
+
+    /* Dodato: Omogući relativno pozicioniranje za dugme */
+    position: relative;
+    overflow: hidden; /* Omogući skrivanje dugmeta kada nije hover */
+    padding-bottom: 80px; /* Dodatni prostor za dugme */
+}
+
+/* Stil za ikone u About karticama */
+.about-icon {
+    font-size: 60px; /* Example size */
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px currentColor;
+}
+
+.about-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.about-text {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 20px; /* Razmak iznad dugmeta */
+}
+
+/* Stil za dugme koje se pojavljuje na hoveru */
+.about-card .contact-button-on-hover {
+    position: absolute;
+    bottom: 25px; /* Pozicioniraj ga pri dnu kartice */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+    width: 80%; /* Širina dugmeta */
+    min-width: unset; /* Prebriši min-width iz .animated-button */
+}
+
+.about-card:hover .contact-button-on-hover {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* PRILAGOĐAVANJE BOJE DUGMETA NA HOVERU U ABOUT KARTICAMA */
+.about-card .contact-button-on-hover.secondary-variant {
+    border-color: var(--data-glow-color, var(--color-secondary)); /* Koristi boju kartice za border */
+    color: var(--data-glow-color, var(--color-secondary)); /* Koristi boju kartice za tekst */
+    text-shadow: 0 0 10px var(--data-glow-color, var(--color-secondary)); /* Koristi boju kartice za text-shadow */
+    box-shadow: 0 0 20px var(--data-glow-shadow, rgba(255, 0, 128, 0.3)); /* Koristi boju kartice za box-shadow */
+}
+
+
+/* --- Contact Section --- */
+.contact-section {
+    /* No background-color needed, animated-background handles it */
+    margin-bottom: 60px; /* Dodato: Odmakni kontaktnu sekciju od footera */
+}
+
+.contact-title {
+    text-shadow: 0 0 15px var(--color-secondary); /* Override default glow for contact section title */
+}
+
+.contact-subtitle {
+    text-shadow: none; /* No glow for contact subtitle */
+}
+
+.contact-container {
+    max-width: 700px;
+    width: 100%;
+    align-items: center;
+    gap: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info {
+    width: 100%;
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-item-card {
+    box-shadow: 0 4px 20px var(--color-shadow);
+    elevation: 5;
+    min-height: auto; /* Override default min-height */
+}
+
+/* Form Styling */
+.contact-form-card {
+    padding: 30px; /* Prilagođen padding za formu */
+}
+
+/* Centriranje naslova forme */
+.contact-form .form-title {
+    text-align: center;
+    margin-bottom: 30px; /* Razmak ispod naslova */
+}
+
+/* Razmak između polja forme */
+.contact-form .form-group {
+    margin-bottom: 20px; /* Povećan razmak između input polja */
+}
+
+/* KLJUČNO: Dodato pointer-events: auto za inpute unutar forme */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-alt); /* Tamnija pozadina za input polja */
+    color: var(--color-text);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 16px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    position: relative; /* Bitno za z-index da radi */
+    z-index: 10; /* Postavi iznad bilo kakvih preklapajućih pseudo-elemenata kartice */
+    pointer-events: auto; /* Omogući interakciju mišem */
+}
+
+.contact-form .form-submit-button {
+    position: relative; /* Bitno za z-index da radi */
+    z-index: 10; /* Postavi iznad bilo kakvih preklapajućih pseudo-elemenata kartice */
+    pointer-events: auto; /* Omogući interakciju mišem */
+}
+
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 8px var(--color-primary);
+}
+
+.contact-form textarea {
+    resize: vertical; /* Omogućava samo vertikalno menjanje veličine */
+    min-height: 100px;
+}
+
+.contact-form .form-submit-button {
+    width: 100%;
+    margin-top: 10px; /* Razmak iznad dugmeta */
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
+/* Contact Items (Phone and Instagram) */
+.contact-grid {
+    display: flex;
+    flex-direction: column; /* Stack vertically for phone and instagram */
+    width: 100%;
+    gap: 20px; /* Smanjen razmak između elemenata unutar grida */
+    padding: 30px; /* Padding for the card */
+    justify-content: center; /* Centriraj vertikalno sadržaj */
+    align-items: center; /* Centriraj horizontalno sadržaj */
+    min-height: 100%; /* Da sadržaj popuni karticu */
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; /* Centriraj sadržaj unutar contact-item-a */
+    gap: 15px;
+    background: transparent; /* Button itself has no background */
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    color: inherit; /* Inherit text color from parent */
+    text-align: center; /* Ensure text is centered */
+    position: relative; /* Za animacije ikonice */
+    z-index: 10; /* Izborite da je iznad pseudo elemenata */
+    pointer-events: auto; /* Omogućite interakciju mišem */
+}
+
+/* Stilovi za ikone i tekst unutar ljubičastog boksa */
+.contact-item-card[data-glow-color="#ff0080"] .contact-icon {
+    color: var(--color-secondary); /* Boja ikonice */
+    text-shadow: 0 0 10px var(--color-secondary); /* Sjaj ikonice */
+}
+
+.contact-item-card[data-glow-color="#ff0080"] .contact-text {
+    color: var(--color-text); /* Boja teksta */
+}
+
+
+.contact-icon {
+    font-size: 40px; /* Veličina ikonice */
+    /* Uklonjeno fiksno currentColor jer je definisano u .contact-item-card[data-glow-color="#ff0080"] */
+    /* Uklonjeno fiksno text-shadow jer je definisano u .contact-item-card[data-glow-color="#ff0080"] */
+}
+
+.contact-text {
+    font-size: 18px;
+    color: var(--color-text);
+    font-weight: 500;
+    font-family: 'Exo 2', sans-serif;
+}
+
+/* Dugme "Pozovite nas" */
+.animated-button.secondary-variant.call-button {
+    width: 80%; /* Prilagodi širinu dugmeta */
+    max-width: 250px; /* Dodatno ograničenje širine */
+    margin-top: 20px; /* Dodatni razmak iznad dugmeta, da bude ispod oba linka */
+    /* Boje su već definisane u .animated-button.secondary-variant */
+}
+
+
+/* Animacija za ikonicu telefona */
+.animated-phone-icon {
+    animation: phoneShake 2s ease-in-out infinite;
+}
+
+@keyframes phoneShake {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(10deg); }
+    20% { transform: rotate(-10deg); }
+    30% { transform: rotate(10deg); }
+    40% { transform: rotate(-10deg); }
+    50% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Animacija za ikonicu Instagrama (pulsiranje) */
+.animated-instagram-icon {
+    animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); opacity: 0.8; text-shadow: 0 0 5px var(--color-secondary); }
+    100% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 15px var(--color-secondary); }
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--color-background);
+    padding: 20px 20px; /* Smanjen padding, sa 30px na 20px vertikalno */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-text {
+    font-size: 16px;
+    color: var(--color-text-dark);
+    font-family: 'Exo 2', sans-serif;
+    margin-bottom: 10px;
+}
+
+.sub-footer-text {
+    font-size: 14px;
+}
+
+/* --- Responsive Design (Media Queries) --- */
+
+/* Prilagođavanje za manje ekrane - podrazumevani stilovi za mobilne su postavljeni */
+/* Servisne kartice i "About" kartice na malim ekranima idu jedna ispod druge */
+@media (max-width: 767px) {
+    .services-container,
+    .about-container {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center; /* Center cards */
+    }
+
+    .service-card,
+    .about-card {
+        width: 100%; /* Take full width */
+        max-width: 350px; /* Ograniči maksimalnu širinu na telefonima da ne budu preširoke */
+        margin-bottom: 30px; /* Dodaj razmak između kartica */
+    }
+
+    /* Poništi min-height za service-card na mobilnim da se sadržaj prilagodi */
+    .service-card {
+        min-height: auto;
+    }
+}
+
+
+/* For screens wider than 768px (tablets and desktops) */
+@media (min-width: 768px) {
+    .hero-title {
+        font-size: 72px;
+        line-height: 80px;
+    }
+
+    .hero-subtitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .hero-buttons {
+        flex-direction: row; /* Side-by-side on larger screens */
+    }
+
+    .section-title {
+        font-size: 48px;
+    }
+
+    .section-subtitle {
+        font-size: 20px;
+    }
+
+    /* Portfolio cards adjust for horizontal layout */
+    .portfolio-card {
+        max-width: 45%; /* Approx two cards per row */
+        flex: none; /* Override flex: 1 */
+    }
+
+    /* About cards adjust for horizontal layout */
+    .about-card {
+        max-width: 30%; /* Approx three cards per row */
+        flex: none; /* Override flex: 1 */
+    }
+
+    .contact-buttons {
+        flex-direction: row;
+    }
+
+    /* Contact info alignment for larger screens */
+    .contact-info {
+        flex-direction: row; /* Side-by-side on larger screens */
+        justify-content: center; /* Centriraj bokseve */
+        flex-wrap: wrap; /* Omogući prelamanje ako je potrebno */
+    }
+
+    .contact-item-card {
+        flex: 1; /* Allow cards to take up available space */
+        max-width: 48%; /* Adjust for spacing between them */
+        min-height: 300px; /* Da obe kontakt kartice budu slične visine */
+    }
+
+    .contact-form-card {
+        min-height: 300px; /* Osiguraj minimalnu visinu forme */
+    }
+
+    .contact-grid {
+        justify-content: center; /* Centriraj sadržaj vertikalno unutar boksa */
+    }
+}
+
+/* For screens wider than 1024px (desktops) */
+@media (min-width: 1024px) {
+    .services-container {
+        flex-direction: row; /* Services cards side-by-side */
+    }
+
+    .service-card {
+        max-width: 23%; /* Approx four cards per row, adjusted for gap */
+        flex: 1; /* Let them grow to fill space */
+    }
+}
